@@ -2712,7 +2712,7 @@ eslint-plugin-flowtype@2.50.3:
   dependencies:
     lodash "^4.17.10"
 
-eslint-plugin-import@^2.25.3:
+eslint-plugin-import@^2.26.0:
   version "2.26.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.26.0.tgz#f812dc47be4f2b72b478a021605a59fc6fe8b88b"
   integrity sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA==
@@ -2761,7 +2761,7 @@ eslint-plugin-prettier@3.1.2:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-react-hooks@^4.0.7, eslint-plugin-react-hooks@^4.3.0:
+eslint-plugin-react-hooks@^4.0.7, eslint-plugin-react-hooks@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.5.0.tgz#5f762dfedf8b2cf431c689f533c9d3fa5dcf25ad"
   integrity sha512-8k1gRt7D7h03kd+SAAlzXkQwWK22BnK6GKZG+FJA6BAGy22CFvl8kCIXKpVux0cCxMWDQUPqSok0LKaZ0aOcCw==
@@ -2779,7 +2779,7 @@ eslint-plugin-react-native@^3.10.0:
     "@babel/traverse" "^7.7.4"
     eslint-plugin-react-native-globals "^0.1.1"
 
-eslint-plugin-react@^7.20.0, eslint-plugin-react@^7.28.0:
+eslint-plugin-react@^7.20.0, eslint-plugin-react@^7.29.4:
   version "7.29.4"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.29.4.tgz#4717de5227f55f3801a5fd51a16a4fa22b5914d2"
   integrity sha512-CVCXajliVh509PcZYRFyu/BoUEz452+jtQJq2b3Bae4v3xBUWPLCmtmBM+ZinG4MzwmxJgJ2M5rMqhqLVn7MtQ==
@@ -2837,7 +2837,7 @@ eslint-visitor-keys@^3.3.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-3.3.0.tgz#f6480fa6b1f30efe2d1968aa8ac745b862469826"
   integrity sha512-mQ+suqKJVyeuwGYHAdjMFqjCyfl8+Ldnxuyp3ldiMBFKkvytrXUZWaiPCEav8qDHKty44bD+qV1IP4T+w+xXRA==
 
-eslint@^8.2.0:
+eslint@^8.14.0:
   version "8.14.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.14.0.tgz#62741f159d9eb4a79695b28ec4989fcdec623239"
   integrity sha512-3/CE4aJX7LNEiE3i6FeodHmI/38GZtWCsAtsymScmzYapx8q1nVVb+eLcLSzATmCPXw5pT4TqVs1E0OmxAd9tw==
@@ -5496,6 +5496,11 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
+
+randomcolor@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/randomcolor/-/randomcolor-0.6.2.tgz#7a57362ae1a1278439aeed2c15e5deb8ea33f56d"
+  integrity sha512-Mn6TbyYpFgwFuQ8KJKqf3bqqY9O1y37/0jgSK/61PUxV4QfIMv0+K2ioq8DfOjkBslcjwSzRfIDEXfzA9aCx7A==
 
 range-parser@~1.2.1:
   version "1.2.1"
