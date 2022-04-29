@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "17.0.2",
+    "react": "18.1.0",
     "react-native": "0.68.1"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
     "eslint": "^8.14.0",
     "jest": "^28.0.2",
     "metro-react-native-babel-preset": "^0.70.2",
-    "react-test-renderer": "17.0.2"
+    "react-test-renderer": "18.1.0"
   },
   "jest": {
     "preset": "react-native"
