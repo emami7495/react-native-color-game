@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,12 +12,15 @@ const styles = StyleSheet.create({
   },
 });
 const randomColor = require('randomcolor');
+const screenWidth = Dimensions.get('window').width;
 
 const App = () => {
-  const [squareSideSize] = useState(4);
+  const [squareSideSize, setSquareSideSize] = useState(4);
   const [squareUi, setSquareUi] = useState([]);
   const [colorArray, setColorArray] = useState(null);
   const [square, setSquare] = useState(new Array(squareSideSize));
+  const [selectedItem, setSelectedItem]=useState(null);
+  const itemWidthAndHeight = (screenWidth/squareSideSize)-(12);
 
   const generateRandomColors = useCallback(() => {
     const halfArray = randomColor({
@@ -42,7 +45,7 @@ const App = () => {
     });
     setColorArray(finalArray);
   },
-  [],
+  [squareSideSize],
   );
   useEffect(() => {
     const tmp = [...square];
@@ -57,6 +60,7 @@ const App = () => {
             num: counter,
             selected: false,
             color: colorArray?.[counter - 1],
+            hidden: false,
           };
           counter += 1;
         }
@@ -70,28 +74,62 @@ const App = () => {
     for (let i = 0; i < squareSideSize; i += 1) {
       const rowArray = [];
       for (let j = 0; j < squareSideSize; j += 1) {
-        rowArray.push(<TouchableOpacity
-          key={`${i}${j}`}
-          onPress={() => {
-            const tmp = [...square]; tmp[i][j].selected = true;
-		      setSquare(tmp);
-          }}
-          style={{
-            margin: 4,
-            width: 56,
-		    height: 56,
-		    borderRadius: 12,
-		    alignItems: 'center',
-            justifyContent: 'center',
-		    backgroundColor: square?.[i]?.[j]?.color,
-            borderWidth: square?.[i]?.[j]?.selected ? 3 : 0,
-		    borderColor: '#49a910',
-          }}
-        >
-          <Text style={{fontSize: 32, fontWeight: '100'}}>
-            {square?.[i]?.[j]?.num}
-          </Text>
-        </TouchableOpacity>,
+        rowArray.push(
+            <TouchableOpacity
+              key={`${i}${j}`}
+              onPress={() => {
+                const tmp = [...square];
+                if (selectedItem) {
+                  if (selectedItem.color===tmp[i][j].color && selectedItem.num!==tmp[i][j].num) {
+                    tmp[i][j].hidden = true;
+                    for (let k = 0; k < squareSideSize; k++) {
+                      for (let l = 0; l < squareSideSize; l++) {
+                        if (tmp[k][l].num===selectedItem.num) {
+                          tmp[k][l].hidden=true;
+                          setSelectedItem(null);
+                          break;
+                        }
+                      }
+                    }
+                  }
+                  else {
+                    for (let k = 0; k < squareSideSize; k++) {
+                      for (let l = 0; l < squareSideSize; l++) {
+                        if (tmp[k][l].selected) {
+                          tmp[k][l].selected=false;
+                          break;
+                        }
+                      }
+                    }
+                    setSelectedItem(null);
+                  }
+                }
+                else {
+                  tmp[i][j].selected = true;
+                  setSelectedItem(tmp[i][j]);
+                }
+                setSquare(tmp);
+              }}
+              style={!square?.[i]?.[j]?.hidden?{
+                margin: 4,
+                width: itemWidthAndHeight,
+                height: itemWidthAndHeight,
+                borderRadius: 12, alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: square?.[i]?.[j]?.color,
+                borderWidth: square?.[i]?.[j]?.selected ? 3 : 0,
+                borderColor: '#49a910',
+              }:{
+                margin: 4,
+                width: itemWidthAndHeight,
+                height: itemWidthAndHeight,
+              }}
+            >
+              {!square?.[i]?.[j]?.hidden&&
+                  <Text style={{fontSize: 32-squareSideSize, fontWeight: '100'}}>
+                    {square?.[i]?.[j]?.num}
+                  </Text>}
+            </TouchableOpacity>,
         );
       }
 	  temp.push(<View key={i} style={{flexDirection: 'row'}}>{rowArray}</View>);
@@ -103,9 +141,32 @@ const App = () => {
     generateRandomColors();
   }, []);
 
+  useEffect(()=>{
+    generateRandomColors();
+  }, [squareSideSize]);
+
+  const renderButtons=()=> {
+    const buttons= [];
+    for (let i = 2; i <9; i++) {
+      buttons.push(
+          <TouchableOpacity onPress={()=>{
+            setSquareSideSize(i);
+          }}>
+            <Text
+              style={{borderRadius: 4,
+                marginHorizontal: 4,
+                padding: 6,
+                backgroundColor: '#5e9bea'}}>
+              {i}X{i}
+            </Text>
+          </TouchableOpacity>);
+    }
+    return <View style={{flexDirection: 'row'}}>{buttons}</View>;
+  };
   return (
     <SafeAreaView>
       <View style={styles.container}>
+        {renderButtons()}
         <Text
           style={{
             textAlign: 'center',
@@ -113,9 +174,23 @@ const App = () => {
             fontWeight: '200',
             fontSize: 22,
           }}>
-          Click On Similar Colors
+          CLICK ON THE SAME COLORS
         </Text>
         {squareUi}
+        <TouchableOpacity
+          onPress={()=>{
+            generateRandomColors();
+          }}
+          style={{backgroundColor: '#ff5a5a', margin: 16, borderRadius: 12}}>
+          <Text style={{
+            textAlign: 'center',
+            margin: 16,
+            fontWeight: '400',
+            fontSize: 22,
+          }}>
+            Reset
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
