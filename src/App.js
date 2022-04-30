@@ -15,15 +15,17 @@ const randomColor = require('randomcolor');
 const screenWidth = Dimensions.get('window').width;
 
 const App = () => {
+  const [isWin, setIsWin]=useState(false);
   const [squareSideSize, setSquareSideSize] = useState(4);
   const [squareUi, setSquareUi] = useState([]);
   const [colorArray, setColorArray] = useState(null);
-  const [square, setSquare] = useState(new Array(squareSideSize));
   const [selectedItem, setSelectedItem]=useState(null);
+  const [square, setSquare] = useState(new Array(squareSideSize));
+  //
   const itemsMargin = 2.5;
   const itemWidthAndHeight = ((screenWidth-(((squareSideSize+1)*2)*itemsMargin)-16)/squareSideSize);
   const winTextWidthAndHeight = (itemWidthAndHeight*squareSideSize)+squareSideSize*2*itemsMargin;
-  const [isWin, setIsWin]=useState(false);
+  //
 
   const generateRandomColors = useCallback(() => {
     setIsWin(false);
@@ -185,6 +187,7 @@ const App = () => {
   const renderButtons=()=> {
     const buttons= [];
     for (let i = 2; i <=10; i++) {
+      const isCurrentSize = i===squareSideSize;
       buttons.push(
           <TouchableOpacity
             key={i+'btn'}
@@ -193,15 +196,19 @@ const App = () => {
               setSquareSideSize(i);
             }}>
             <Text
-              style={{fontSize: 10,
+              style={{fontSize: 12,
+                textAlign: 'center',
+                textAlignVertical: 'center',
                 borderRadius: 4,
                 marginHorizontal: 2.5,
                 paddingHorizontal: 4,
                 paddingVertical: 6,
-                backgroundColor: '#000000',
-                color: '#ffffff',
+                backgroundColor: isCurrentSize?'#ffffff':'#000000',
+                color: isCurrentSize?'#000000':'#ffffff',
+                borderWidth: 1,
+                borderColor: '#000000',
                 fontWeight: '300'}}>
-              {i} X {i}
+              {i}X{i}
             </Text>
           </TouchableOpacity>);
     }
