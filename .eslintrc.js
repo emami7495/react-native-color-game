@@ -20,6 +20,7 @@ module.exports = {
   'rules': {
     'no-mixed-spaces-and-tabs': 0, // disable rule
     'no-tabs': 0,
+    'require-jsdoc': 0,
     'max-len': 'off',
     'react/function-component-definition': [2, {namedComponents: 'arrow-function'}],
     'linebreak-style': 0,

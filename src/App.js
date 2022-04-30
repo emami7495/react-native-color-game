@@ -16,7 +16,9 @@ const randomColor = require('randomcolor');
 const screenWidth = Dimensions.get('window').width;
 
 const App = () => {
+  const [time, setTime]=useState(0);
   const [isWin, setIsWin]=useState(false);
+  const [winTime, setWinTime]=useState(0);
   const [squareSideSize, setSquareSideSize] = useState(4);
   const [squareUi, setSquareUi] = useState([]);
   const [colorArray, setColorArray] = useState(null);
@@ -30,6 +32,8 @@ const App = () => {
 
   const generateRandomColors = useCallback(() => {
     setIsWin(false);
+    setWinTime(0);
+    setTime(0);
     const halfArray = randomColor({
       luminosity: 'light',
       format: 'rgba',
@@ -150,6 +154,7 @@ const App = () => {
                   }
                   if (winFlag===0) {
                     setIsWin(true);
+                    setWinTime(time);
                   }
                   //
                   setSquare(tmp);
@@ -183,6 +188,12 @@ const App = () => {
     setSquareUi([...temp]);
   }, [square]);
 
+  useEffect(()=>{
+    const timer = setTimeout(()=>setTime(time+1), 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [time]);
   useEffect(() => {
     generateRandomColors();
   }, []);
@@ -228,10 +239,47 @@ const App = () => {
         <View style={{flexDirection: 'row'}}>{buttons}</View>
       </Animatable.View>);
   };
+  function setTimeUi(inputTime) {
+    let result='';
+    const minute = Math.floor(inputTime/60);
+    const second = inputTime%60;
+    if ((minute+'').length===1) {
+      result+='0'+minute+':';
+    }
+    else {
+      result+=minute+':';
+    }
+    if ((second+'').length===1) {
+      result+='0'+second;
+    }
+    else {
+      result+=second;
+    }
+    return result;
+  }
   return (
     <SafeAreaView>
       <View style={styles.container}>
         {renderButtons()}
+        <TouchableOpacity
+          onPress={()=>{
+            generateRandomColors();
+          }}
+          style={{width: '50%',
+            backgroundColor: isWin?'#49a910':'#ff5a5a',
+            marginTop: 24, borderRadius: 4}}>
+          <Text
+            style={{
+              color: isWin?'white':'black',
+              textAlign: 'center',
+              margin: 16,
+              fontWeight: '300',
+              fontSize: 18,
+              paddingHorizontal: 16,
+            }}>
+            {isWin?setTimeUi(winTime+1):setTimeUi(time)}
+          </Text>
+        </TouchableOpacity>
         <Animatable.View
           duration={2500}
           animation="zoomIn"
@@ -263,7 +311,7 @@ const App = () => {
                 width: winTextWidthAndHeight,
                 height: winTextWidthAndHeight,
               }}>
-                ❤️ YOU WIN! </Animatable.Text>
+                ❤️ YOU WIN ! </Animatable.Text>
         }
         <TouchableOpacity
           onPress={()=>{
