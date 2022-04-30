@@ -225,7 +225,7 @@ const App = () => {
             fontWeight: '200',
             fontSize: 18,
           }}>
-          Click On The Same Colors
+          {isWin?'congratulation!':'Click On The Same Colors'}
         </Text>
         {!isWin?squareUi:<Text
           style={{fontWeight: '200',
@@ -242,7 +242,7 @@ const App = () => {
           }}
           style={{width: '50%',
             backgroundColor: isWin?'#49a910':'#ff5a5a',
-            margin: 16, borderRadius: 4}}>
+            margin: 24, borderRadius: 4}}>
           <Text
             style={{
               color: isWin?'white':'black',
@@ -255,7 +255,7 @@ const App = () => {
             {isWin?'Start Again':'Reset'}
           </Text>
         </TouchableOpacity>
-        <Text style={{marginTop: 16,
+        <Text style={{marginTop: 0,
           fontSize: 12,
           fontWeight: '200'}}>
           Developed By Mostafa Emami
