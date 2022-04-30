@@ -20,14 +20,18 @@ const App = () => {
   const [colorArray, setColorArray] = useState(null);
   const [square, setSquare] = useState(new Array(squareSideSize));
   const [selectedItem, setSelectedItem]=useState(null);
-  const itemWidthAndHeight = (screenWidth/squareSideSize)-(12);
+  const itemsMargin = 2.5;
+  const itemWidthAndHeight = ((screenWidth-(((squareSideSize+1)*2)*itemsMargin)-16)/squareSideSize);
+  const winTextWidthAndHeight = (itemWidthAndHeight*squareSideSize)+squareSideSize*2*itemsMargin;
+  const [isWin, setIsWin]=useState(false);
 
   const generateRandomColors = useCallback(() => {
+    setIsWin(false);
     const halfArray = randomColor({
       luminosity: 'light',
       format: 'rgba',
-      hue: 'blue',
-      alpha: 0.75,
+      // hue: 'blue',
+      alpha: 0.8,
       count: (squareSideSize * squareSideSize) / 2,
     });
     const finalArray = halfArray.concat(halfArray);
@@ -65,6 +69,25 @@ const App = () => {
           counter += 1;
         }
       }
+      //
+      if (squareSideSize%2===1) {
+        for (let i = 0; i < squareSideSize; i += 1) {
+          for (let j = 0; j < squareSideSize; j += 1) {
+            let flag=0;
+            for (let k = 0; k < squareSideSize; k += 1) {
+              for (let l = 0; l < squareSideSize; l += 1) {
+                if (tmp[i][j].color===tmp[k][l].color && !(i===k&&j===l)) {
+                  flag+=1;
+                }
+              }
+            }
+            if (flag===0) {
+              tmp[i][j].hidden=true;
+            }
+          }
+        }
+      }
+      //
       setSquare(tmp);
     }
   }, [colorArray]);
@@ -108,25 +131,39 @@ const App = () => {
                   tmp[i][j].selected = true;
                   setSelectedItem(tmp[i][j]);
                 }
+                //
+                let winFlag=0;
+                for (let k = 0; k < squareSideSize; k++) {
+                  for (let l = 0; l < squareSideSize; l++) {
+                    if (!tmp[k][l].hidden) {
+                      winFlag+=1;
+                    }
+                  }
+                }
+                if (winFlag===0) {
+                  setIsWin(true);
+                }
+                //
                 setSquare(tmp);
               }}
               style={!square?.[i]?.[j]?.hidden?{
-                margin: 4,
+                margin: itemsMargin,
                 width: itemWidthAndHeight,
                 height: itemWidthAndHeight,
-                borderRadius: 12, alignItems: 'center',
+                borderRadius: 4,
+                alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: square?.[i]?.[j]?.color,
-                borderWidth: square?.[i]?.[j]?.selected ? 3 : 0,
-                borderColor: '#49a910',
+                borderWidth: square?.[i]?.[j]?.selected ? itemsMargin : 0,
+                borderColor: '#000000',
               }:{
-                margin: 4,
+                margin: itemsMargin,
                 width: itemWidthAndHeight,
                 height: itemWidthAndHeight,
               }}
             >
               {!square?.[i]?.[j]?.hidden&&
-                  <Text style={{fontSize: 32-squareSideSize, fontWeight: '100'}}>
+                  <Text style={{fontSize: 34-(squareSideSize*2), fontWeight: '100'}}>
                     {square?.[i]?.[j]?.num}
                   </Text>}
             </TouchableOpacity>,
@@ -147,17 +184,24 @@ const App = () => {
 
   const renderButtons=()=> {
     const buttons= [];
-    for (let i = 2; i <9; i++) {
+    for (let i = 2; i <=10; i++) {
       buttons.push(
-          <TouchableOpacity onPress={()=>{
-            setSquareSideSize(i);
-          }}>
+          <TouchableOpacity
+            key={i+'btn'}
+            onPress={()=>{
+              setSquareSideSize(1);
+              setSquareSideSize(i);
+            }}>
             <Text
-              style={{borderRadius: 4,
-                marginHorizontal: 4,
-                padding: 6,
-                backgroundColor: '#5e9bea'}}>
-              {i}X{i}
+              style={{fontSize: 10,
+                borderRadius: 4,
+                marginHorizontal: 2.5,
+                paddingHorizontal: 4,
+                paddingVertical: 6,
+                backgroundColor: '#000000',
+                color: '#ffffff',
+                fontWeight: '300'}}>
+              {i} X {i}
             </Text>
           </TouchableOpacity>);
     }
@@ -172,25 +216,43 @@ const App = () => {
             textAlign: 'center',
             margin: 16,
             fontWeight: '200',
-            fontSize: 22,
+            fontSize: 18,
           }}>
-          CLICK ON THE SAME COLORS
+          Click On The Same Colors
         </Text>
-        {squareUi}
+        {!isWin?squareUi:<Text
+          style={{fontWeight: '200',
+            fontSize: 36,
+            width: winTextWidthAndHeight,
+            height: winTextWidthAndHeight,
+            textAlign: 'center',
+            textAlignVertical: 'center'}}>
+          YOU WIN!
+        </Text>}
         <TouchableOpacity
           onPress={()=>{
             generateRandomColors();
           }}
-          style={{backgroundColor: '#ff5a5a', margin: 16, borderRadius: 12}}>
-          <Text style={{
-            textAlign: 'center',
-            margin: 16,
-            fontWeight: '400',
-            fontSize: 22,
-          }}>
-            Reset
+          style={{width: '50%',
+            backgroundColor: isWin?'#49a910':'#ff5a5a',
+            margin: 16, borderRadius: 4}}>
+          <Text
+            style={{
+              color: isWin?'white':'black',
+              textAlign: 'center',
+              margin: 16,
+              fontWeight: '300',
+              fontSize: 18,
+              paddingHorizontal: 16,
+            }}>
+            {isWin?'Start Again':'Reset'}
           </Text>
         </TouchableOpacity>
+        <Text style={{marginTop: 16,
+          fontSize: 12,
+          fontWeight: '200'}}>
+          Developed By Mostafa Emami
+        </Text>
       </View>
     </SafeAreaView>
   );
