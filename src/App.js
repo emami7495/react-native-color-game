@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 const styles = StyleSheet.create({
   container: {
@@ -100,75 +101,81 @@ const App = () => {
       const rowArray = [];
       for (let j = 0; j < squareSideSize; j += 1) {
         rowArray.push(
-            <TouchableOpacity
+            <Animatable.View
               key={`${i}${j}`}
-              onPress={() => {
-                const tmp = [...square];
-                if (selectedItem) {
-                  if (selectedItem.color===tmp[i][j].color && selectedItem.num!==tmp[i][j].num) {
-                    tmp[i][j].hidden = true;
-                    for (let k = 0; k < squareSideSize; k++) {
-                      for (let l = 0; l < squareSideSize; l++) {
-                        if (tmp[k][l].num===selectedItem.num) {
-                          tmp[k][l].hidden=true;
-                          setSelectedItem(null);
-                          break;
+              animation="bounceIn"
+              duration={2000}
+              useNativeDriver={true}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  const tmp = [...square];
+                  if (selectedItem) {
+                    if (selectedItem.color===tmp[i][j].color && selectedItem.num!==tmp[i][j].num) {
+                      tmp[i][j].hidden = true;
+                      for (let k = 0; k < squareSideSize; k++) {
+                        for (let l = 0; l < squareSideSize; l++) {
+                          if (tmp[k][l].num===selectedItem.num) {
+                            tmp[k][l].hidden=true;
+                            setSelectedItem(null);
+                            break;
+                          }
                         }
                       }
+                    }
+                    else {
+                      for (let k = 0; k < squareSideSize; k++) {
+                        for (let l = 0; l < squareSideSize; l++) {
+                          if (tmp[k][l].selected) {
+                            tmp[k][l].selected=false;
+                            break;
+                          }
+                        }
+                      }
+                      setSelectedItem(null);
                     }
                   }
                   else {
-                    for (let k = 0; k < squareSideSize; k++) {
-                      for (let l = 0; l < squareSideSize; l++) {
-                        if (tmp[k][l].selected) {
-                          tmp[k][l].selected=false;
-                          break;
-                        }
+                    tmp[i][j].selected = true;
+                    setSelectedItem(tmp[i][j]);
+                  }
+                  //
+                  let winFlag=0;
+                  for (let k = 0; k < squareSideSize; k++) {
+                    for (let l = 0; l < squareSideSize; l++) {
+                      if (!tmp[k][l].hidden) {
+                        winFlag+=1;
                       }
                     }
-                    setSelectedItem(null);
                   }
-                }
-                else {
-                  tmp[i][j].selected = true;
-                  setSelectedItem(tmp[i][j]);
-                }
-                //
-                let winFlag=0;
-                for (let k = 0; k < squareSideSize; k++) {
-                  for (let l = 0; l < squareSideSize; l++) {
-                    if (!tmp[k][l].hidden) {
-                      winFlag+=1;
-                    }
+                  if (winFlag===0) {
+                    setIsWin(true);
                   }
-                }
-                if (winFlag===0) {
-                  setIsWin(true);
-                }
-                //
-                setSquare(tmp);
-              }}
-              style={!square?.[i]?.[j]?.hidden?{
-                margin: itemsMargin,
-                width: itemWidthAndHeight,
-                height: itemWidthAndHeight,
-                borderRadius: 4,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: square?.[i]?.[j]?.color,
-                borderWidth: square?.[i]?.[j]?.selected ? itemsMargin : 0,
-                borderColor: '#000000',
-              }:{
-                margin: itemsMargin,
-                width: itemWidthAndHeight,
-                height: itemWidthAndHeight,
-              }}
-            >
-              {!square?.[i]?.[j]?.hidden&&
+                  //
+                  setSquare(tmp);
+                }}
+                style={!square?.[i]?.[j]?.hidden?{
+                  margin: itemsMargin,
+                  width: itemWidthAndHeight,
+                  height: itemWidthAndHeight,
+                  borderRadius: 4,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: square?.[i]?.[j]?.color,
+                  borderWidth: square?.[i]?.[j]?.selected ? itemsMargin : 0,
+                  borderColor: '#000000',
+                }:{
+                  margin: itemsMargin,
+                  width: itemWidthAndHeight,
+                  height: itemWidthAndHeight,
+                }}
+              >
+                {!square?.[i]?.[j]?.hidden&&
                   <Text style={{fontSize: 34-(squareSideSize*2), fontWeight: '100'}}>
                     {square?.[i]?.[j]?.num}
                   </Text>}
-            </TouchableOpacity>,
+              </TouchableOpacity>
+            </Animatable.View>,
         );
       }
 	  temp.push(<View key={i} style={{flexDirection: 'row'}}>{rowArray}</View>);
@@ -212,30 +219,52 @@ const App = () => {
             </Text>
           </TouchableOpacity>);
     }
-    return <View style={{flexDirection: 'row'}}>{buttons}</View>;
+    return (
+      <Animatable.View
+        duration={2500}
+        animation="fadeInDown"
+        useNativeDriver={true}
+      >
+        <View style={{flexDirection: 'row'}}>{buttons}</View>
+      </Animatable.View>);
   };
   return (
     <SafeAreaView>
       <View style={styles.container}>
         {renderButtons()}
-        <Text
-          style={{
-            textAlign: 'center',
-            margin: 16,
-            fontWeight: '200',
-            fontSize: 18,
-          }}>
-          {isWin?'congratulation!':'Click On The Same Colors'}
-        </Text>
-        {!isWin?squareUi:<Text
-          style={{fontWeight: '200',
-            fontSize: 36,
-            width: winTextWidthAndHeight,
-            height: winTextWidthAndHeight,
-            textAlign: 'center',
-            textAlignVertical: 'center'}}>
-          YOU WIN!
-        </Text>}
+        <Animatable.View
+          duration={2500}
+          animation="zoomIn"
+          useNativeDriver={true}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              margin: 16,
+              fontWeight: '200',
+              fontSize: 18,
+            }}>
+            {isWin?'congratulation!':'Click On The Same Colors'}
+          </Text>
+        </Animatable.View>
+        {!isWin?
+            squareUi :
+            <Animatable.Text
+              duration={1000}
+              animation="pulse"
+              easing="ease-out"
+              iterationCount="infinite"
+              style={{
+                color: '#000000',
+                fontSize: 36,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                textAlignVertical: 'center',
+                width: winTextWidthAndHeight,
+                height: winTextWidthAndHeight,
+              }}>
+                ❤️ YOU WIN! </Animatable.Text>
+        }
         <TouchableOpacity
           onPress={()=>{
             generateRandomColors();
@@ -255,11 +284,17 @@ const App = () => {
             {isWin?'Start Again':'Reset'}
           </Text>
         </TouchableOpacity>
-        <Text style={{marginTop: 0,
-          fontSize: 12,
-          fontWeight: '200'}}>
+        <Animatable.View
+          duration={2500}
+          animation="fadeInUp"
+          useNativeDriver={true}
+        >
+          <Text style={{marginTop: 0,
+            fontSize: 12,
+            fontWeight: '200'}}>
           Developed By Mostafa Emami
-        </Text>
+          </Text>
+        </Animatable.View>
       </View>
     </SafeAreaView>
   );
