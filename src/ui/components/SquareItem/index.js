@@ -3,7 +3,7 @@ import {Text, TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 
-const SquareItem = ({key, item, itemsMargin, itemWidthAndHeight, squareSideSize, onPress}) => {
+const SquareItem = ({inputKey, item, itemsMargin, itemWidthAndHeight, squareSideSize, onPress}) => {
   const dynamicStyleItems = !item?.hidden?
       {
         borderRadius: 4,
@@ -23,7 +23,7 @@ const SquareItem = ({key, item, itemsMargin, itemWidthAndHeight, squareSideSize,
   const textStyle={fontSize: 34-(squareSideSize*2), fontWeight: '100'};
   return (
     <Animatable.View
-      key={key}
+      key={inputKey}
       duration={2000}
       animation="bounceIn"
       useNativeDriver={true}

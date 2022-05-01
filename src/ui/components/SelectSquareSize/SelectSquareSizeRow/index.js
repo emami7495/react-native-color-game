@@ -9,6 +9,7 @@ const SelectSquareSizeRow = ({squareSideSize, onPress}) => {
   for (let i = 2; i <=10; i++) {
     buttons.push(
         <SelectSquareSizeButton
+          key={i+'-btn'}
           num={i}
           onPress={()=>onPress(i)}
           isCurrentSize={i===squareSideSize}

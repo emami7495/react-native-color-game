@@ -20,7 +20,8 @@ const Square = ({
     for (let j = 0; j < squareSideSize; j += 1) {
       rowArray.push(
           <SquareItem
-            key={i+'-'+j}
+            key={i+'-+-'+j}
+            inputKey={i+'--'+j}
             item={square?.[i]?.[j]}
             itemsMargin={itemsMargin}
             squareSideSize={squareSideSize}
