@@ -89,7 +89,9 @@ const Square :React.FC<Props> = function Square({
     temp.push(<View key={i} style={{ flexDirection: 'row' }}>{rowArray}</View>);
   }
   return (
-    [...temp]
+    <View>
+      {[...temp]}
+    </View>
   );
 };
 export default memo(Square);
