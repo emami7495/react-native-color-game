@@ -27,7 +27,7 @@ const SquareItem: React.FC<Props> = function SquareItem({
       width: itemWidthAndHeight,
       height: itemWidthAndHeight,
       backgroundColor: item?.color,
-      borderWidth: item?.selected ? itemsMargin : 0,
+      borderWidth: item?.selected ? (12 - squareSideSize) / 2 : 0,
     } : {
       margin: itemsMargin,
       width: itemWidthAndHeight,
