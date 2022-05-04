@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   SafeAreaView, ScrollView, StatusBar, Text, View,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { useTranslation } from 'react-i18next';
 import styles from './styles';
 import APP_CONSTANTS from '../../../constants/app';
 import TimerButton from '../../components/TimerButton';
@@ -14,6 +14,7 @@ import { createColorArray, emptyItem } from '../../../utils/utils';
 import Square from '../../components/Square';
 
 function Game() {
+  const { t, i18n } = useTranslation();
   const [time, setTime] = useState(0);
   const [isWin, setIsWin] = useState(false);
   const [winTime, setWinTime] = useState(0);
@@ -97,6 +98,26 @@ function Game() {
       <StatusBar animated backgroundColor="#ffffff" barStyle="dark-content" />
       <ScrollView>
         <View style={{ alignItems: 'center', paddingTop: 24 }}>
+          <Text
+            onPress={() => {
+              if (i18n.language === 'fa') {
+                i18n.changeLanguage('en', () => {
+                }).then(() => {});
+              } else if (i18n.language === 'en') {
+                i18n.changeLanguage('fa', () => {
+                }).then(() => {});
+              }
+            }}
+            style={{
+              borderRadius: 8,
+              padding: 8,
+              fontSize: 20,
+              margin: 24,
+              backgroundColor: 'green',
+            }}
+          >
+            {t('change_lang')}
+          </Text>
           <SelectSquareSizeRow
             onPress={(i) => setSquareSideSize(i)}
             squareSideSize={squareSideSize}

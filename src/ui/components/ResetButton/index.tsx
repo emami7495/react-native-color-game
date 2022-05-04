@@ -1,12 +1,15 @@
 import React, { memo } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { useTranslation } from 'react-i18next';
 
 interface Props{
     isWin:boolean,
     onPress:()=>void
 }
 const ResetButton:React.FC<Props> = function ResetButton({ isWin, onPress }) {
+  const { t } = useTranslation();
+
   return (
     <Animatable.View
       duration={2500}
@@ -32,7 +35,7 @@ const ResetButton:React.FC<Props> = function ResetButton({ isWin, onPress }) {
             color: isWin ? 'white' : 'black',
           }}
         >
-          {isWin ? 'Start Again' : 'Reset'}
+          {isWin ? t('start_again') : t('reset')}
         </Text>
       </TouchableOpacity>
     </Animatable.View>

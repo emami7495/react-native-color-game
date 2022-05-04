@@ -47,6 +47,6 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
     'max-len': ['error', { code: 140 }],
-    "global-require": 0
+    'global-require': 0,
   },
 };

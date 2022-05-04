@@ -1,6 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { useTranslation } from 'react-i18next';
 import { getTime } from '../../../utils/utils';
 
 interface Props{
@@ -13,6 +14,7 @@ const TimerButton: React.FC<Props> = function TimerButton({
   time, isWin, winTime, userErrorCount,
 }) {
   let avRef:any;
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (avRef) avRef.rubberBand(1000);
@@ -46,8 +48,8 @@ const TimerButton: React.FC<Props> = function TimerButton({
             color: 'white',
           }}
         >
-          Time :
-          {' '}
+          {t('time')}
+          {' : '}
           {isWin ? getTime(winTime + 1) : getTime(time)}
         </Text>
       </TouchableOpacity>
@@ -78,7 +80,7 @@ const TimerButton: React.FC<Props> = function TimerButton({
             color: 'white',
           }}
           >
-            {userErrorCount !== 0 ? `Mistake : ${userErrorCount}` : 'No Mistake'}
+            {userErrorCount !== 0 ? `${t('mistake')} : ${userErrorCount}` : t('no_mistake')}
           </Text>
         </TouchableOpacity>
       </Animatable.View>
