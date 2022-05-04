@@ -7,7 +7,7 @@ import ResetButton from '../../components/ResetButton';
 import DeveloperLabel from '../../components/DeveloperLabel';
 import WinText from '../../components/WinText';
 import SelectSquareSizeRow from '../../components/SelectSquareSize/SelectSquareSizeRow';
-import { createColorArray } from '../../../utils/utils';
+import { createColorArray, emptyItem } from '../../../utils/utils';
 import Square from '../../components/Square';
 
 function Game() {
@@ -16,7 +16,7 @@ function Game() {
   const [winTime, setWinTime] = useState(0);
   const [squareSideSize, setSquareSideSize] = useState(4);
   const [colorArray, setColorArray] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(emptyItem);
   const [square, setSquare] = useState(new Array(squareSideSize));
   //
   const itemsMargin = 2.5;

@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { View } from 'react-native';
 import SquareItem from '../SquareItem';
+import { emptyItem } from '../../../utils/utils';
 
 interface Props{
     time:number,
@@ -9,7 +10,7 @@ interface Props{
     itemWidthAndHeight:number,
     squareSideSize:number,
     selectedItem:{num:number, selected:boolean, color:string, hidden:boolean},
-    setSelectedItem:(selectedItem: {num:number, selected:boolean, color:string, hidden:boolean}|null)=>void,
+    setSelectedItem:(selectedItem: {num:number, selected:boolean, color:string, hidden:boolean})=>void,
     setIsWin:(isWin:boolean)=>void,
     setWinTime:(winTime:number)=>void,
     setSquare:(square:Array<Array<{num:number, selected:boolean, color:string, hidden:boolean}>>)=>void,
@@ -40,14 +41,14 @@ const Square :React.FC<Props> = function Square({
           itemWidthAndHeight={itemWidthAndHeight}
           onPress={() => {
             const tmp = [...square];
-            if (selectedItem) {
+            if (selectedItem.num !== -1) {
               if (selectedItem.color === tmp[i][j].color && selectedItem.num !== tmp[i][j].num) {
                 tmp[i][j].hidden = true;
                 for (let k = 0; k < squareSideSize; k += 1) {
                   for (let l = 0; l < squareSideSize; l += 1) {
                     if (tmp[k][l].num === selectedItem.num) {
                       tmp[k][l].hidden = true;
-                      setSelectedItem(null);
+                      setSelectedItem(emptyItem);
                       break;
                     }
                   }
@@ -61,7 +62,7 @@ const Square :React.FC<Props> = function Square({
                     }
                   }
                 }
-                setSelectedItem(null);
+                setSelectedItem(emptyItem);
               }
             } else {
               tmp[i][j].selected = true;

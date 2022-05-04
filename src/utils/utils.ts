@@ -43,3 +43,7 @@ export function createColorArray(squareSideSize: number) {
   finalArray.sort(gameSort);
   return finalArray;
 }
+
+export const emptyItem = {
+  num: -1, selected: false, color: '#ffffff', hidden: false,
+};
