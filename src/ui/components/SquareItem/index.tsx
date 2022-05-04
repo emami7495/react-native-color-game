@@ -42,7 +42,7 @@ const SquareItem: React.FC<Props> = function SquareItem({
       useNativeDriver
     >
       <TouchableOpacity
-        onPress={onPress}
+        onPress={!item?.hidden && !item?.selected ? onPress : () => {}}
         style={dynamicStyleItems}
       >
         {!item?.hidden && <Text style={textStyle}>{item?.num}</Text>}

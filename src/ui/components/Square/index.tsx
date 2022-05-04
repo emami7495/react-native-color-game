@@ -41,7 +41,7 @@ const Square :React.FC<Props> = function Square({
           itemWidthAndHeight={itemWidthAndHeight}
           onPress={() => {
             const tmp = [...square];
-            if (selectedItem.num !== -1) {
+            if (selectedItem.num !== emptyItem.num) {
               if (selectedItem.color === tmp[i][j].color && selectedItem.num !== tmp[i][j].num) {
                 tmp[i][j].hidden = true;
                 for (let k = 0; k < squareSideSize; k += 1) {
@@ -58,13 +58,12 @@ const Square :React.FC<Props> = function Square({
                   for (let l = 0; l < squareSideSize; l += 1) {
                     if (tmp[k][l].selected) {
                       tmp[k][l].selected = false;
-                      break;
                     }
                   }
                 }
                 setSelectedItem(emptyItem);
               }
-            } else {
+            } else if (!tmp[i][j].hidden) {
               tmp[i][j].selected = true;
               setSelectedItem(tmp[i][j]);
             }
