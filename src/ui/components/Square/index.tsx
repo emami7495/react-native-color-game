@@ -2,21 +2,25 @@ import React, { memo } from 'react';
 import { View } from 'react-native';
 import SquareItem from '../SquareItem';
 import { emptyItem } from '../../../utils/utils';
+import styles from './styles';
 
 interface Props{
     time:number,
     square:Array<Array<{num:number, selected:boolean, color:string, hidden:boolean}>>,
     itemsMargin:number,
-    itemWidthAndHeight:number,
     squareSideSize:number,
+    userErrorCount:number,
+    itemWidthAndHeight:number,
     selectedItem:{num:number, selected:boolean, color:string, hidden:boolean},
     setSelectedItem:(selectedItem: {num:number, selected:boolean, color:string, hidden:boolean})=>void,
+    setUserErrorCount:(userErrorCount:number)=>void,
     setIsWin:(isWin:boolean)=>void,
     setWinTime:(winTime:number)=>void,
     setSquare:(square:Array<Array<{num:number, selected:boolean, color:string, hidden:boolean}>>)=>void,
 }
 const Square :React.FC<Props> = function Square({
   time,
+  userErrorCount,
   square,
   itemsMargin,
   itemWidthAndHeight,
@@ -25,6 +29,7 @@ const Square :React.FC<Props> = function Square({
   setSelectedItem,
   setIsWin,
   setWinTime,
+  setUserErrorCount,
   setSquare,
 }) {
   const temp = [];
@@ -58,6 +63,7 @@ const Square :React.FC<Props> = function Square({
                   for (let l = 0; l < squareSideSize; l += 1) {
                     if (tmp[k][l].selected) {
                       tmp[k][l].selected = false;
+                      setUserErrorCount(userErrorCount + 1);
                     }
                   }
                 }
@@ -89,7 +95,7 @@ const Square :React.FC<Props> = function Square({
     temp.push(<View key={i} style={{ flexDirection: 'row' }}>{rowArray}</View>);
   }
   return (
-    <View>
+    <View style={styles.container}>
       {[...temp]}
     </View>
   );

@@ -1,45 +1,88 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { getTime } from '../../../utils/utils';
 
 interface Props{
+    time:number,
     isWin:boolean,
     winTime:number,
-    time:number,
-    onPress:()=>void
+    userErrorCount:number,
 }
 const TimerButton: React.FC<Props> = function TimerButton({
-  isWin, winTime, time, onPress,
+  time, isWin, winTime, userErrorCount,
 }) {
+  let avRef:any;
+
+  useEffect(() => {
+    if (avRef) avRef.rubberBand(1000);
+  }, [userErrorCount]);
   return (
     <Animatable.View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
       duration={2500}
       useNativeDriver
       animation="fadeInDown"
     >
       <TouchableOpacity
-        onPress={onPress}
         style={{
-          width: '50%',
+          borderRadius: 128,
           marginVertical: 24,
-          borderRadius: 4,
+          marginHorizontal: 4,
           backgroundColor: isWin ? '#49a910' : '#4c93da',
         }}
       >
         <Text
           style={{
             margin: 16,
-            fontSize: 18,
+            fontSize: 14,
             fontWeight: '300',
             textAlign: 'center',
-            paddingHorizontal: 16,
-            color: isWin ? 'white' : 'black',
+            paddingHorizontal: 4,
+            color: 'white',
           }}
         >
+          Time :
+          {' '}
           {isWin ? getTime(winTime + 1) : getTime(time)}
         </Text>
       </TouchableOpacity>
+
+      <Animatable.View
+        ref={(node) => {
+          if (node) {
+            avRef = node;
+          }
+        }}
+        duration={1000}
+        animation={userErrorCount !== 0 ? 'rubberBand' : undefined}
+      >
+        <TouchableOpacity
+          style={{
+            marginVertical: 24,
+            borderRadius: 128,
+            backgroundColor: userErrorCount !== 0 ? '#ff5a5a' : '#4c93da',
+            marginHorizontal: 4,
+          }}
+        >
+          <Text style={{
+            margin: 16,
+            fontSize: 14,
+            fontWeight: '300',
+            textAlign: 'center',
+            paddingHorizontal: 4,
+            color: 'white',
+          }}
+          >
+            {userErrorCount !== 0 ? `Mistake : ${userErrorCount}` : 'No Mistake'}
+          </Text>
+        </TouchableOpacity>
+      </Animatable.View>
+
     </Animatable.View>
   );
 };

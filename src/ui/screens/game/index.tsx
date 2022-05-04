@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import {
+  SafeAreaView, ScrollView, StatusBar, Text, View,
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import styles from './styles';
 import APP_CONSTANTS from '../../../constants/app';
 import TimerButton from '../../components/TimerButton';
@@ -18,8 +21,9 @@ function Game() {
   const [colorArray, setColorArray] = useState(null);
   const [selectedItem, setSelectedItem] = useState(emptyItem);
   const [square, setSquare] = useState(new Array(squareSideSize));
+  const [userErrorCount, setUserErrorCount] = useState(0);
   //
-  const itemsMargin = (12 - squareSideSize) / 2;
+  const itemsMargin = 2; // (12 - squareSideSize) / 2;
   const itemWidthAndHeight = ((APP_CONSTANTS.screenWidth
       - (((squareSideSize + 1) * 2) * itemsMargin) - 16) / squareSideSize);
   const winTextWidthAndHeight = (itemWidthAndHeight * squareSideSize)
@@ -56,7 +60,10 @@ function Game() {
               }
             }
             if (flag === 0) {
-              tmp[i][j].hidden = true;
+              const mid:number = Math.floor(squareSideSize / 2);
+              tmp[i][j].color = tmp[mid][mid].color;
+              tmp[mid][mid] = { ...emptyItem };
+              tmp[mid][mid].hidden = true;
             }
           }
         }
@@ -70,6 +77,7 @@ function Game() {
     setTime(0);
     setWinTime(0);
     setIsWin(false);
+    setUserErrorCount(0);
     setColorArray(createColorArray(squareSideSize));
   }, [squareSideSize]);
 
@@ -86,40 +94,47 @@ function Game() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SelectSquareSizeRow
-        onPress={(i) => setSquareSideSize(i)}
-        squareSideSize={squareSideSize}
-      />
-      <TimerButton
-        time={time}
-        isWin={isWin}
-        winTime={winTime}
-        onPress={() => { generateRandomColors(); }}
-      />
-      {!isWin ? (
-        <Square
-          time={time}
-          square={square}
-          itemsMargin={itemsMargin}
-          selectedItem={selectedItem}
-          squareSideSize={squareSideSize}
-          itemWidthAndHeight={itemWidthAndHeight}
-          setIsWin={(res) => { setIsWin(res); }}
-          setSquare={(res) => { setSquare(res); }}
-          setWinTime={(res) => { setWinTime(res); }}
-          setSelectedItem={(res) => { setSelectedItem(res); }}
-        />
-      )
-        : (
-          <WinText
-            winTextWidthAndHeight={winTextWidthAndHeight}
+      <StatusBar animated backgroundColor="#ffffff" barStyle="dark-content" />
+      <ScrollView>
+        <View style={{ alignItems: 'center', paddingTop: 24 }}>
+          <SelectSquareSizeRow
+            onPress={(i) => setSquareSideSize(i)}
+            squareSideSize={squareSideSize}
           />
-        )}
-      <ResetButton
-        isWin={isWin}
-        onPress={() => { generateRandomColors(); }}
-      />
-      <DeveloperLabel />
+          <TimerButton
+            time={time}
+            isWin={isWin}
+            winTime={winTime}
+            userErrorCount={userErrorCount}
+          />
+          {!isWin ? (
+            <Square
+              time={time}
+              square={square}
+              itemsMargin={itemsMargin}
+              selectedItem={selectedItem}
+              squareSideSize={squareSideSize}
+              userErrorCount={userErrorCount}
+              itemWidthAndHeight={itemWidthAndHeight}
+              setIsWin={(res) => { setIsWin(res); }}
+              setSquare={(res) => { setSquare(res); }}
+              setWinTime={(res) => { setWinTime(res); }}
+              setSelectedItem={(res) => { setSelectedItem(res); }}
+              setUserErrorCount={(res) => { setUserErrorCount(res); }}
+            />
+          )
+            : (
+              <WinText
+                winTextWidthAndHeight={winTextWidthAndHeight}
+              />
+            )}
+          <ResetButton
+            isWin={isWin}
+            onPress={() => { generateRandomColors(); }}
+          />
+          <DeveloperLabel />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
