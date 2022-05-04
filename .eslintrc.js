@@ -1,49 +1,52 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2021': true,
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
   },
-  'extends': [
+  extends: [
     'plugin:react/recommended',
-    'google',
+    'airbnb',
   ],
-  'parserOptions': {
-    'ecmaFeatures': {
-      'jsx': true,
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    'ecmaVersion': 'latest',
-    'sourceType': 'module',
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
-  'plugins': [
+  plugins: [
     'react',
+    '@typescript-eslint',
   ],
-  'rules': {
-    'no-mixed-spaces-and-tabs': 0, // disable rule
-    'no-tabs': 0,
-    'require-jsdoc': 0,
-    'max-len': 'off',
-    'react/function-component-definition': [2, {namedComponents: 'arrow-function'}],
-    'linebreak-style': 0,
-    'class-methods-use-this': 'off',
-    'no-underscore-dangle': 'off',
-    'react/jsx-indent': ['off', 'tab'],
-    'react/jsx-indent-props': ['off', 'tab'],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: [
+          '.js',
+          '.jsx',
+          '.ts',
+          '.tsx',
+        ],
+      },
+    },
+  },
+  rules: {
     'react/jsx-filename-extension': 0,
-    'brace-style': ['error', 'stroustrup', {allowSingleLine: true}],
-    'import/no-unresolved': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'arrow-parens': ['error', 'as-needed'],
-    'no-nested-ternary': 0,
-    'no-shadow': 0,
-    'jsx-a11y/no-autofocus': 0,
-    'object-curly-newline': ['error', {
-      ObjectPattern: {
-        multiline: true,
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
       },
-      ImportDeclaration: 'never',
-      ExportDeclaration: {
-        multiline: true, minProperties: 5,
-      },
-    }],
+    ],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    'max-len': ['error', { code: 140 }],
+    "global-require": 0
   },
 };

@@ -1,20 +1,18 @@
 import APP_CONSTANTS from '../constants/app';
 
-export function getTime(inputTime) {
-  let result='';
-  const minute = Math.floor(inputTime/60);
-  const second = inputTime%60;
-  if ((minute+'').length===1) {
-    result+='0'+minute+':';
+export function getTime(inputTime: number) {
+  let result = '';
+  const minute = Math.floor(inputTime / 60);
+  const second = inputTime % 60;
+  if ((`${minute}`).length === 1) {
+    result += `0${minute}:`;
+  } else {
+    result += `${minute}:`;
   }
-  else {
-    result+=minute+':';
-  }
-  if ((second+'').length===1) {
-    result+='0'+second;
-  }
-  else {
-    result+=second;
+  if ((`${second}`).length === 1) {
+    result += `0${second}`;
+  } else {
+    result += second;
   }
   return result;
 }
@@ -32,14 +30,14 @@ export function gameSort() {
   } return 0;
 }
 
-export function createColorArray(squareSideSize) {
-  const count =((squareSideSize * squareSideSize) / 2);
+export function createColorArray(squareSideSize: number) {
+  const count = ((squareSideSize * squareSideSize) / 2);
   const halfArray = APP_CONSTANTS.randomColor({
     luminosity: 'light',
     format: 'rgba',
-    hue: 'blue',
+    // hue: 'blue',
     alpha: 1,
-    count: count,
+    count,
   });
   const finalArray = halfArray.concat(halfArray);
   finalArray.sort(gameSort);

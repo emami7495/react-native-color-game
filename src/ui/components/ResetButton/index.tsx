@@ -1,14 +1,17 @@
-import React, {memo} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import React, { memo } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-
-const ResetButton = ({isWin, onPress}) => {
+interface Props{
+    isWin:boolean,
+    onPress:()=>void
+}
+const ResetButton:React.FC<Props> = function ResetButton({ isWin, onPress }) {
   return (
     <Animatable.View
       duration={2500}
       animation="fadeInUp"
-      useNativeDriver={true}
+      useNativeDriver
     >
       <TouchableOpacity
         onPress={onPress}
@@ -16,8 +19,9 @@ const ResetButton = ({isWin, onPress}) => {
           margin: 24,
           width: '50%',
           borderRadius: 4,
-          backgroundColor: isWin?'#49a910':'#ff5a5a',
-        }}>
+          backgroundColor: isWin ? '#49a910' : '#ff5a5a',
+        }}
+      >
         <Text
           style={{
             margin: 16,
@@ -25,9 +29,10 @@ const ResetButton = ({isWin, onPress}) => {
             fontWeight: '300',
             textAlign: 'center',
             paddingHorizontal: 16,
-            color: isWin?'white':'black',
-          }}>
-          {isWin?'Start Again':'Reset'}
+            color: isWin ? 'white' : 'black',
+          }}
+        >
+          {isWin ? 'Start Again' : 'Reset'}
         </Text>
       </TouchableOpacity>
     </Animatable.View>
