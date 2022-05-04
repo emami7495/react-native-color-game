@@ -19,7 +19,7 @@ function Game() {
   const [selectedItem, setSelectedItem] = useState(emptyItem);
   const [square, setSquare] = useState(new Array(squareSideSize));
   //
-  const itemsMargin = 2.5;
+  const itemsMargin = (12 - squareSideSize) / 2;
   const itemWidthAndHeight = ((APP_CONSTANTS.screenWidth
       - (((squareSideSize + 1) * 2) * itemsMargin) - 16) / squareSideSize);
   const winTextWidthAndHeight = (itemWidthAndHeight * squareSideSize)
