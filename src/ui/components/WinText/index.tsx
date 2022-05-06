@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { StyleProp, TextStyle } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Text from '../../kit/Text';
 
 interface Props{
     winTextWidthAndHeight:number
@@ -12,26 +13,26 @@ const TimerButton:React.FC<Props> = function TimerButton({ winTextWidthAndHeight
   const textStyle : StyleProp<TextStyle> = {
     fontSize: 36,
     color: '#000000',
-    fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
     width: winTextWidthAndHeight,
     height: winTextWidthAndHeight,
   };
   return (
-    <Animatable.Text
+    <Animatable.View
       duration={2000}
-      animation="rubberBand"
       easing="ease-out"
-      style={textStyle}
+      animation="rubberBand"
       iterationCount="infinite"
     >
-      ❤️
-      {' '}
-      {t('you_win')}
-      {' '}
-      ❤️
-    </Animatable.Text>
+      <Text style={textStyle}>
+        ❤️
+        {' '}
+        {t('you.win')}
+        {' '}
+        ❤️
+      </Text>
+    </Animatable.View>
   );
 };
 export default memo(TimerButton);

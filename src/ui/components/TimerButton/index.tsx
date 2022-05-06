@@ -1,8 +1,9 @@
 import React, { memo, useEffect } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
-import { getTime } from '../../../utils/utils';
+import { changeNumToFa, getTime } from '../../../utils/utils';
+import Text from '../../kit/Text';
 
 interface Props{
     time:number,
@@ -50,7 +51,7 @@ const TimerButton: React.FC<Props> = function TimerButton({
         >
           {t('time')}
           {' : '}
-          {isWin ? getTime(winTime + 1) : getTime(time)}
+          {changeNumToFa(isWin ? getTime(winTime + 1) : getTime(time))}
         </Text>
       </TouchableOpacity>
 
@@ -74,13 +75,13 @@ const TimerButton: React.FC<Props> = function TimerButton({
           <Text style={{
             margin: 16,
             fontSize: 14,
+            color: 'white',
             fontWeight: '300',
             textAlign: 'center',
             paddingHorizontal: 4,
-            color: 'white',
           }}
           >
-            {userErrorCount !== 0 ? `${t('mistake')} : ${userErrorCount}` : t('no_mistake')}
+            {userErrorCount !== 0 ? `${t('mistake')} : ${changeNumToFa(`${userErrorCount}`)}` : t('no.mistake')}
           </Text>
         </TouchableOpacity>
       </Animatable.View>

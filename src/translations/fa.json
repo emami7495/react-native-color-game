@@ -1,11 +1,11 @@
 {
-  "change_lang": "English",
-  "you_win": "برنده شدی",
-  "developer_name": "توسعه یافته توسط مصطفی امامی",
-  "start_again": "شروع دوباره",
+  "x": " x ",
+  "time": "زمان",
   "reset": "تلاش مجدد",
-  "x": "*",
+  "you.win": "برنده شدی",
   "mistake": "تعداد خطا",
-  "no_mistake": "بدون خطا",
-  "time": "زمان"
+  "no.mistake": "بدون خطا",
+  "start.again": "شروع دوباره",
+  "change.lang": "Change Language To English",
+  "developer.name": "توسعه یافته توسط مصطفی امامی"
 }

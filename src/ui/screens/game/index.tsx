@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  SafeAreaView, ScrollView, StatusBar, Text, View,
+  SafeAreaView, ScrollView, StatusBar, View,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styles from './styles';
@@ -12,6 +12,7 @@ import WinText from '../../components/WinText';
 import SelectSquareSizeRow from '../../components/SelectSquareSize/SelectSquareSizeRow';
 import { createColorArray, emptyItem } from '../../../utils/utils';
 import Square from '../../components/Square';
+import Text from '../../kit/Text';
 
 function Game() {
   const { t, i18n } = useTranslation();
@@ -98,26 +99,6 @@ function Game() {
       <StatusBar animated backgroundColor="#ffffff" barStyle="dark-content" />
       <ScrollView>
         <View style={{ alignItems: 'center', paddingTop: 24 }}>
-          <Text
-            onPress={() => {
-              if (i18n.language === 'fa') {
-                i18n.changeLanguage('en', () => {
-                }).then(() => {});
-              } else if (i18n.language === 'en') {
-                i18n.changeLanguage('fa', () => {
-                }).then(() => {});
-              }
-            }}
-            style={{
-              borderRadius: 8,
-              padding: 8,
-              fontSize: 20,
-              margin: 24,
-              backgroundColor: 'green',
-            }}
-          >
-            {t('change_lang')}
-          </Text>
           <SelectSquareSizeRow
             onPress={(i) => setSquareSideSize(i)}
             squareSideSize={squareSideSize}
@@ -154,9 +135,31 @@ function Game() {
             onPress={() => { generateRandomColors(); }}
           />
           <DeveloperLabel />
+          <Text
+            onPress={() => {
+              if (i18n.language === 'fa') {
+                i18n.changeLanguage('en', () => {
+                }).then(() => {});
+              } else if (i18n.language === 'en') {
+                i18n.changeLanguage('fa', () => {
+                }).then(() => {});
+              }
+            }}
+            style={{
+              margin: 24,
+              fontSize: 12,
+              borderRadius: 2,
+              paddingVertical: 4,
+              paddingHorizontal: 8,
+              backgroundColor: '#ebebeb',
+            }}
+          >
+            {t('change.lang')}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
 export default Game;

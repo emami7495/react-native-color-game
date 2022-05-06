@@ -1,7 +1,9 @@
 import React, { memo } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styles from './styles';
+import Text from '../../../kit/Text';
+import { changeNumToFa } from '../../../../utils/utils';
 
 interface Props {
   num:number,
@@ -22,9 +24,9 @@ const SelectSquareSizeButton:
           onPress={onPress}
         >
           <Text style={[styles.buttonText, dynamicStyleItems]}>
-            {num}
+            {changeNumToFa(`${num}`)}
             {t('x')}
-            {num}
+            {changeNumToFa(`${num}`)}
           </Text>
         </TouchableOpacity>
       );

@@ -21,11 +21,7 @@ const SelectSquareSizeRow :
         );
       }
       return (
-        <Animatable.View
-          duration={2500}
-          useNativeDriver
-          animation="fadeInDown"
-        >
+        <Animatable.View duration={2500} useNativeDriver animation="fadeInDown">
           <View style={{ flexDirection: 'row' }}>{buttons}</View>
         </Animatable.View>
       );

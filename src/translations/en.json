@@ -1,11 +1,11 @@
 {
-  "change_lang": "فارسی",
-  "you_win": "You Win",
-  "developer_name": "Developed By Mostafa Emami",
-  "start_again": "Start Again",
+  "x": " x ",
+  "time": "Time",
   "reset": "Reset",
-  "x": "X",
+  "you.win": "You Win",
   "mistake": "Mistake",
-  "no_mistake": "No Mistake",
-  "time": "Time"
+  "no.mistake": "No Mistake",
+  "start.again": "Start Again",
+  "change.lang": "تغییر زبان به فارسی",
+  "developer.name": "Developed By Mostafa Emami"
 }

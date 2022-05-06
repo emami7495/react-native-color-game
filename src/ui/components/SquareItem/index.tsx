@@ -1,8 +1,10 @@
 import React, { memo } from 'react';
 import {
-  StyleProp, TextStyle, ViewStyle, Text, TouchableOpacity,
+  StyleProp, TextStyle, ViewStyle, TouchableOpacity,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Text from '../../kit/Text';
+import { changeNumToFa } from '../../../utils/utils';
 
 interface Props {
     inputKey:string,
@@ -14,8 +16,8 @@ interface Props {
 }
 
 const SquareItem: React.FC<Props> = function SquareItem({
-  inputKey, item, itemsMargin, itemWidthAndHeight,
-  squareSideSize, onPress,
+  inputKey, item, itemsMargin,
+  itemWidthAndHeight, squareSideSize, onPress,
 }) {
   const dynamicStyleItems:StyleProp<ViewStyle> = !item?.hidden
     ? {
@@ -35,17 +37,9 @@ const SquareItem: React.FC<Props> = function SquareItem({
     };
   const textStyle : StyleProp<TextStyle> = { fontSize: 34 - (squareSideSize * 2), fontWeight: '100' };
   return (
-    <Animatable.View
-      key={inputKey}
-      duration={2000}
-      animation="bounceIn"
-      useNativeDriver
-    >
-      <TouchableOpacity
-        onPress={!item?.hidden && !item?.selected ? onPress : () => {}}
-        style={dynamicStyleItems}
-      >
-        {!item?.hidden && <Text style={textStyle}>{item?.num}</Text>}
+    <Animatable.View key={inputKey} duration={2000} useNativeDriver animation="bounceIn">
+      <TouchableOpacity style={dynamicStyleItems} onPress={!item?.hidden && !item?.selected ? onPress : () => {}}>
+        {!item?.hidden && <Text style={textStyle}>{item?.num ? changeNumToFa(`${item.num}`) : ''}</Text>}
       </TouchableOpacity>
     </Animatable.View>
   );

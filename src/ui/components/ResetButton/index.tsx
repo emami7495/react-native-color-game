@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useTranslation } from 'react-i18next';
+import Text from '../../kit/Text';
 
 interface Props{
     isWin:boolean,
@@ -35,7 +36,7 @@ const ResetButton:React.FC<Props> = function ResetButton({ isWin, onPress }) {
             color: isWin ? 'white' : 'black',
           }}
         >
-          {isWin ? t('start_again') : t('reset')}
+          {isWin ? t('start.again') : t('reset')}
         </Text>
       </TouchableOpacity>
     </Animatable.View>

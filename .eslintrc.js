@@ -48,5 +48,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     'max-len': ['error', { code: 140 }],
     'global-require': 0,
+    'react/jsx-props-no-spreading': 'off',
   },
 };
