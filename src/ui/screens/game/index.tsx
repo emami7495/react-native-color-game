@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   SafeAreaView, ScrollView, StatusBar, View,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import styles from './styles';
 import APP_CONSTANTS from '../../../constants/app';
 import TimerButton from '../../components/TimerButton';
@@ -12,10 +11,9 @@ import WinText from '../../components/WinText';
 import SelectSquareSizeRow from '../../components/SelectSquareSize/SelectSquareSizeRow';
 import { createColorArray, emptyItem } from '../../../utils/utils';
 import Square from '../../components/Square';
-import Text from '../../kit/Text';
+import ChangeLangButton from '../../components/ChangeLangButton';
 
 function Game() {
-  const { t, i18n } = useTranslation();
   const [time, setTime] = useState(0);
   const [isWin, setIsWin] = useState(false);
   const [winTime, setWinTime] = useState(0);
@@ -99,16 +97,8 @@ function Game() {
       <StatusBar animated backgroundColor="#ffffff" barStyle="dark-content" />
       <ScrollView>
         <View style={{ alignItems: 'center', paddingTop: 24 }}>
-          <SelectSquareSizeRow
-            onPress={(i) => setSquareSideSize(i)}
-            squareSideSize={squareSideSize}
-          />
-          <TimerButton
-            time={time}
-            isWin={isWin}
-            winTime={winTime}
-            userErrorCount={userErrorCount}
-          />
+          <SelectSquareSizeRow onPress={setSquareSideSize} squareSideSize={squareSideSize} />
+          <TimerButton time={time} isWin={isWin} winTime={winTime} userErrorCount={userErrorCount} />
           {!isWin ? (
             <Square
               time={time}
@@ -118,48 +108,19 @@ function Game() {
               squareSideSize={squareSideSize}
               userErrorCount={userErrorCount}
               itemWidthAndHeight={itemWidthAndHeight}
-              setIsWin={(res) => { setIsWin(res); }}
-              setSquare={(res) => { setSquare(res); }}
-              setWinTime={(res) => { setWinTime(res); }}
-              setSelectedItem={(res) => { setSelectedItem(res); }}
-              setUserErrorCount={(res) => { setUserErrorCount(res); }}
+              setIsWin={setIsWin}
+              setSquare={setSquare}
+              setWinTime={setWinTime}
+              setSelectedItem={setSelectedItem}
+              setUserErrorCount={setUserErrorCount}
             />
-          )
-            : (
-              <WinText
-                winTextWidthAndHeight={winTextWidthAndHeight}
-              />
-            )}
-          <ResetButton
-            isWin={isWin}
-            onPress={() => { generateRandomColors(); }}
-          />
+          ) : (<WinText winTextWidthAndHeight={winTextWidthAndHeight} />)}
+          <ResetButton isWin={isWin} onPress={generateRandomColors} />
           <DeveloperLabel />
-          <Text
-            onPress={() => {
-              if (i18n.language === 'fa') {
-                i18n.changeLanguage('en', () => {
-                }).then(() => {});
-              } else if (i18n.language === 'en') {
-                i18n.changeLanguage('fa', () => {
-                }).then(() => {});
-              }
-            }}
-            style={{
-              margin: 24,
-              fontSize: 12,
-              borderRadius: 2,
-              paddingVertical: 4,
-              paddingHorizontal: 8,
-              backgroundColor: '#ebebeb',
-            }}
-          >
-            {t('change.lang')}
-          </Text>
+          <ChangeLangButton />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
 export default Game;
